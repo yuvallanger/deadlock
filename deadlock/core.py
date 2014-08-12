@@ -2,7 +2,7 @@
 import os
 import sys
 import zipfile
-import tempfile
+import io
 import getpass
 import argparse
 import warnings
@@ -85,19 +85,18 @@ def encrypt_folder(path, sender, recipients):
     a zip-file. Recipients are responsible for opening the zip-file.
     """
     for recipient_key in recipients:
-        crypto.assert_type_and_length('recipient_key', recipient_key, (str, UserLock))
-    crypto.assert_type_and_length("sender_key", sender, UserLock)
+        crypto.assert_type_and_length('recipient_key', recipient_key, (str, crypto.UserLock))
+    crypto.assert_type_and_length("sender_key", sender, crypto.UserLock)
     if (not os.path.exists(path)) or (not os.path.isdir(path)):
         raise OSError("Specified path is not a valid directory: {}".format(path))
-    tempf = tempfile.TemporaryFile()
-    zipf = zipfile(tempf, mode="w", compression=zipfile.ZIP_DEFLATED)
+    buf = io.BytesIO()
+    zipf = zipfile.ZipFile(buf, mode="w", compression=zipfile.ZIP_DEFLATED)
     for root, folders, files in os.walk(path):
         for fn in files:
-            fp = os.path.join(root, fp)
+            fp = os.path.join(root, fn)
             zipf.write(fp)
-    tempf.flush()
-    tempf.seek(0)
-    zip_contents = tempf.read()
+    zipf.close()
+    zip_contents = buf.getvalue()
     _, filename = os.path.split(path)
     filename += ".zip"
     crypted = crypto.MiniLockFile.new(filename, zip_contents, sender, recipients)
@@ -121,7 +120,7 @@ def main_encrypt(A):
     if A.base64:
         crypted = crypto.b64encode(crypted)
     if not A.output:
-        A.output = crypto.b64encode(os.urandom(6)) + ".minilock"
+        A.output = hex(int.from_bytes(os.urandom(6),'big')) + ".minilock"
     print("Saving output to", A.output)
     with open(A.output, "wb") as O:
         O.write(crypted)
