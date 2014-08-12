@@ -100,7 +100,14 @@ class UserLock:
         assert_type_and_length('decoded (b64key)', decoded, bytes, L=32)
         pk = nacl.public.PublicKey(decoded)
         return cls(pk)
-    
+
+    @classmethod
+    def private_from_b64(cls, b64key):
+        decoded = b64decode(b64key)
+        assert_type_and_length('decoded (b64key)', decoded, bytes)
+        private_key = nacl.public.PrivateKey(decoded)
+        return cls(private_key.public_key, private_key)
+
     @classmethod
     def ephemeral(cls):
         """
@@ -159,6 +166,9 @@ class UserLock:
     def userID(self):
         return base58.b58encode(   self.public_key.encode() + 
                             pyblake2.blake2s(self.public_key.encode(), 1).digest() )
+
+    def __hash__(self):
+        return int.from_bytes(self.userID.encode(), 'big')
 
 class SymmetricMiniLock:
     """
@@ -345,6 +355,7 @@ class MiniLockFile:
         assert_type_and_length('sender', sender, UserLock)
         for R in recipients:
             assert_type_and_length('recipient', R, (str, UserLock))   
+        recipients = list(set(recipients))
         # Encrypt file with secret key using file_contents and file_name
         file_key   = os.urandom(32)
         file_nonce = os.urandom(16)
@@ -437,5 +448,6 @@ class MiniLockFile:
             filename = filename.decode('utf8')
         except Exception as E:
             raise ValueError("Cannot decode filename to UTF8 string: '{}'".format(filename))
-        return filename, b''.join(filechunks)
+        sender = decryptInfo['senderID']
+        return filename, sender, b''.join(filechunks)
 
