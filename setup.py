@@ -1,4 +1,3 @@
-import deadlock
 import os
 from setuptools import setup
 
@@ -9,14 +8,22 @@ setup(
     name='deadlock',
     description="A Python implementation of minilock.io, plus some additional features.",
     long_description=long_description,
-    version=deadlock.__version__,
+    version="0.1.7",
     url="https://github.com/cathalgarvey/deadlock",
     author="Cathal Garvey",
     author_email="cathalgarvey@cathalgarvey.me",
     maintainer="Cathal Garvey",
     maintainer_email="cathalgarvey@cathalgarvey.me",
     license="GNU Affero General Public License v3",
-    packages = ['deadlock'],
+    packages = [
+        'deadlock',
+        'deadlock.passwords',
+        'deadlock.passwords.zxcvbn', 
+#        'deadlock.passwords.zxcvbn.data', 
+#        'deadlock.passwords.zxcvbn.generated', 
+        'deadlock.passwords.zxcvbn.scripts'
+    ],
+    package_data = {'deadlock': ['passwords/zxcvbn/data/*', 'passwords/zxcvbn/generated/*']},
     install_requires = [
         'base58',
         'PyNaCl',
