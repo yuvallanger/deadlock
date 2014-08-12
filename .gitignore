@@ -1,0 +1,6 @@
+*__py*
+*~
+skunkworks/*
+deadlock.egg*
+build/
+dist/
