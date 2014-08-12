@@ -16,6 +16,7 @@ setup(
     maintainer="Cathal Garvey",
     maintainer_email="cathalgarvey@cathalgarvey.me",
     license="GNU Affero General Public License v3",
+    packages = ['deadlock'],
     install_requires = [
         'base58',
         'PyNaCl',
