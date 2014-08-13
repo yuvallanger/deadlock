@@ -111,7 +111,7 @@ def resolve_recipients(profile, recipient_list):
     recipients = []
     petnames = profile.get("petnames", [])
     for R in recipient_list:
-        if len(R) == 45 and set(R).issubset(crypto.base58.alphabet):
+        if crypto.UserLock.valid_id(R):
             recipients.append(R)
         else:
             if R in petnames:

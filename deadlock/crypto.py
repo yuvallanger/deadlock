@@ -81,6 +81,15 @@ class UserLock:
         return cls(key.public_key, key)
 
     @classmethod
+    def valid_id(cls, id):
+        if not set(id).issubset(base58.alphabet): return False
+        try:
+            cls.from_id(id)
+            return True
+        except:
+            return False
+
+    @classmethod
     def from_id(cls, id):
         """
         This decodes an ID to a public key and verifies the checksum byte. ID
