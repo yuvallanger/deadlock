@@ -319,7 +319,7 @@ class MiniLockHeader:
         # Scan available entries in decryptInfo and try to decrypt each; break when
         # successful with any.
         for nonce, crypted_decryptInfo in self.dict['decryptInfo'].items():
-            raw_nonce = base64.b64decode(nonce)
+            raw_nonce = b64decode(nonce)
             crypted_decryptInfo = b64decode(crypted_decryptInfo)
             try:
                 decryptInfo_raw = ephem_box.decrypt(crypted_decryptInfo, raw_nonce)
@@ -336,7 +336,7 @@ class MiniLockHeader:
         # Now work with decryptInfo and success_nonce to extract file data.
         senderKey = UserLock.from_id(decryptInfo['senderID'])
         senderBox = nacl.public.Box(recipient_key.private_key, senderKey.public_key)
-        fileInfo_raw = base64.b64decode(decryptInfo['fileInfo'])
+        fileInfo_raw = b64decode(decryptInfo['fileInfo'])
         fileInfo_decrypted = senderBox.decrypt(fileInfo_raw, success_nonce).decode('utf8')
         fileInfo = json.loads(fileInfo_decrypted)
         # Overwrite decryptInfo's fileInfo key
@@ -444,7 +444,7 @@ class MiniLockFile:
         file_hash = file_info['fileHash']
         if not b64decode(file_hash) == pyblake2.blake2s(self.chunks_block).digest():
             raise ValueError("ciphertext does not match given hash!")
-        symbox = SymmetricMiniLock.from_key(base64.b64decode(file_info['fileKey']))
+        symbox = SymmetricMiniLock.from_key(b64decode(file_info['fileKey']))
         filename, *filechunks = symbox.decrypt(self.chunks_block, b64decode(file_info['fileNonce']))
         try:
             filename = filename.decode('utf8')
