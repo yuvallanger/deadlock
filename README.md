@@ -3,9 +3,11 @@
 
 by Cathal Garvey, Copyright 2014, proudly licensed under the GNU Affero General Public License
 
-* Twitter: @onetruecathal
-* Email: cathalgarvey@cathalgarvey.me
+* Twitter: [@onetruecathal](https://twitter.com/onetruecathal)
+* Email: [cathalgarvey@cathalgarvey.me](mailto:cathalgarvey@cathalgarvey.me)
 * miniLock ID: JjmYYngs7akLZUjkvFkuYdsZ3PyPHSZRBKNm6qTYKZfAM
+* Gittip: [https://www.gittip.com/onetruecathal][]
+* Bitcoin: [1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe](bitcoin://1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe)
 
 ## What's this?
 Go to [minilock.io](https://minilock.io) to learn more about miniLock. *deadlock*
