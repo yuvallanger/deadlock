@@ -6,7 +6,7 @@ by Cathal Garvey, Copyright 2014, proudly licensed under the GNU Affero General 
 * Twitter: [@onetruecathal](https://twitter.com/onetruecathal)
 * Email: [cathalgarvey@cathalgarvey.me](mailto:cathalgarvey@cathalgarvey.me)
 * miniLock ID: JjmYYngs7akLZUjkvFkuYdsZ3PyPHSZRBKNm6qTYKZfAM
-* Gittip: [https://www.gittip.com/onetruecathal][]
+* Gittip: [https://www.gittip.com/onetruecathal](https://www.gittip.com/onetruecathal)
 * Bitcoin: [1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe](bitcoin://1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe)
 
 ## What's this?
