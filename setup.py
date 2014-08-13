@@ -2,7 +2,7 @@ import os
 import sys
 from setuptools import setup
 
-if sys.version < (3,2):
+if sys.version_info < (3,2):
     raise NotImplementedError("deadlock is Python 3 only, and is only known to run on 3.2 or above.")
 
 with open(os.path.join(os.path.dirname(__file__), "README.txt")) as readme:
