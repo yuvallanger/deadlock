@@ -14,6 +14,9 @@ General Public License
 -  Bitcoin:
    `1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe <bitcoin://1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe>`__
 
+.. figure:: icons/deadlock_icon.png
+   :alt: Sorry for killing your avi, Nadim
+
 What's this?
 ------------
 
@@ -82,20 +85,19 @@ you.
 Directions
 ----------
 
-Planned, desired or future features:
-
--  Tidier API for alternative uses of the miniLock encryption format,
-   for P2P or mail client tie-in, or for RPC message passing.
--  Cleaner code structure; break lots of functionality out of
-   crypto.py/core.py into a new utils.py file, make core.py "dumb glue
-   code" only.
--  Fully integrate high-security keys and vanity keys, including
-   multiprocessing for facilitating vanity key generation on multi-core
-   machines. Estimated progress summaries for vanity key generation;
-   time until statistically expected result, etc.
--  Pure-Python fallbacks for some cryptographic dependencies for
-   platforms that pose a challenge to native C compilation; Android,
-   embedded platforms, etc.
+Planned, desired or future features: \* Test suite! \* Tidier API for
+alternative uses of the miniLock encryption format, for P2P or mail
+client tie-in, or for RPC message passing. \* Cleaner code structure;
+break lots of functionality out of crypto.py/core.py into a new utils.py
+file, make core.py "dumb glue code" only. \* Fully integrate
+high-security keys and vanity keys, including multiprocessing for
+facilitating vanity key generation on multi-core machines. Estimated
+progress summaries for vanity key generation; time until statistically
+expected result, etc. \* Pure-Python fallbacks for some cryptographic
+dependencies for platforms that pose a challenge to native C
+compilation; Android, embedded platforms, etc. - Starting with
+tweetnacl.c/.js -> tweetnacl.py - Pure Python Blake2 already exists -
+Pure Python scrypt probably exists
 
 Not currently planned:
 

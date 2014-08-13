@@ -9,6 +9,8 @@ by Cathal Garvey, Copyright 2014, proudly licensed under the GNU Affero General 
 * Gittip: [https://www.gittip.com/onetruecathal](https://www.gittip.com/onetruecathal)
 * Bitcoin: [1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe](bitcoin://1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe)
 
+![](icons/deadlock_icon.png "Sorry for killing your avi, Nadim")
+
 ## What's this?
 Go to [minilock.io](https://minilock.io) to learn more about miniLock. *deadlock*
 is an implementation of the miniLock protocol, and as such it is compatible with
