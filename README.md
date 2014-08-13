@@ -60,7 +60,7 @@ means and motive to harm or imprison you.
 
 ## Directions
 Planned, desired or future features:
-
+* Test suite!
 * Tidier API for alternative uses of the miniLock encryption format, for P2P or
   mail client tie-in, or for RPC message passing.
 * Cleaner code structure; break lots of functionality out of crypto.py/core.py into
@@ -70,6 +70,9 @@ Planned, desired or future features:
   summaries for vanity key generation; time until statistically expected result, etc.
 * Pure-Python fallbacks for some cryptographic dependencies for platforms that pose
   a challenge to native C compilation; Android, embedded platforms, etc.
+    - Starting with tweetnacl.c/.js -> tweetnacl.py
+    - Pure Python Blake2 already exists
+    - Pure Python scrypt probably exists
 
 Not currently planned:
 
