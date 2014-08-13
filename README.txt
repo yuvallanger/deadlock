@@ -7,9 +7,12 @@ Dead-simple, Pythonic Encryption after `miniLock.io <https://minilock.io>`__
 by Cathal Garvey, Copyright 2014, proudly licensed under the GNU Affero
 General Public License
 
--  Twitter: @onetruecathal
+-  Twitter: [@onetruecathal](https://twitter.com/onetruecathal)
 -  Email: cathalgarvey@cathalgarvey.me
 -  miniLock ID: JjmYYngs7akLZUjkvFkuYdsZ3PyPHSZRBKNm6qTYKZfAM
+-  Gittip: [https://www.gittip.com/onetruecathal][]
+-  Bitcoin:
+   `1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe <bitcoin://1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe>`__
 
 What's this?
 ------------
