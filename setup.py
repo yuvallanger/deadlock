@@ -12,7 +12,7 @@ setup(
     name='deadlock',
     description="A Python implementation of minilock.io, plus some additional features.",
     long_description=long_description,
-    version="0.1.10",
+    version="0.1.11",
     url="https://github.com/cathalgarvey/deadlock",
     author="Cathal Garvey",
     author_email="cathalgarvey@cathalgarvey.me",
@@ -29,7 +29,8 @@ setup(
     install_requires = [
         'base58',
         'PyNaCl',
-        'scrypt',
+#        'scrypt',
+        'pylibscrypt',
         'pyblake2'
         ],
     entry_points = {

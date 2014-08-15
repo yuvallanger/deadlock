@@ -11,7 +11,8 @@ import base64
 import json
 import os
 import pyblake2
-import scrypt
+#import scrypt
+import pylibscrypt
 import nacl.public
 import nacl.secret
 import base58
@@ -76,7 +77,8 @@ class UserLock:
         the public key is derived.
         """
         pp_blake = pyblake2.blake2s(cls.ensure_bytes(passphrase)).digest()
-        pp_scrypt = scrypt.hash(pp_blake, cls.ensure_bytes(email), 2**17, 8, 1, 32)
+        #pp_scrypt = scrypt.hash(pp_blake, cls.ensure_bytes(email), 2**17, 8, 1, 32)
+        pp_scrypt = pylibscrypt.scrypt(pp_blake, cls.ensure_bytes(email), 2**17, 8, 1, 32)
         key = nacl.public.PrivateKey(pp_scrypt)
         return cls(key.public_key, key)
 
