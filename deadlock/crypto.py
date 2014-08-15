@@ -10,8 +10,12 @@ broken out into separate modules for simplicity and ease of re-use.
 import base64
 import json
 import os
-import pyblake2
-#import scrypt
+try:
+    import pyblake2
+except:
+    # Revert to fallback BLAKE2 in Pure Python
+    from .crypto_fallbacks import blake2 as pyblake2
+    pyblake2.blake2s = pyblake2.BLAKE2s
 import pylibscrypt
 import nacl.public
 import nacl.secret

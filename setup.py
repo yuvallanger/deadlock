@@ -21,6 +21,7 @@ setup(
     license="GNU Affero General Public License v3",
     packages = [
         'deadlock',
+        'deadlock.crypto_fallbacks',
         'deadlock.passwords',
         'deadlock.passwords.zxcvbn', 
         'deadlock.passwords.zxcvbn.scripts'
