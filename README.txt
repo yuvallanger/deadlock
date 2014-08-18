@@ -10,7 +10,7 @@ General Public License
 -  Twitter: [@onetruecathal](https://twitter.com/onetruecathal)
 -  Email: cathalgarvey@cathalgarvey.me
 -  miniLock ID: JjmYYngs7akLZUjkvFkuYdsZ3PyPHSZRBKNm6qTYKZfAM
--  Gittip: https://www.gittip.com/onetruecathal
+-  Gittip: |gittip|
 -  Bitcoin:
    `1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe <bitcoin://1QJQaR9C682HMGKHvEHWxmCvdX7SqdKzXe>`__
 
@@ -114,3 +114,5 @@ Not currently planned:
    successor. Again as above, such extensions would at present
    compromise anonymity somewhat.
 
+.. |gittip| image:: https://img.shields.io/gittip/onetruecathal.svg
+   :target: https://www.gittip.com/onetruecathal/
