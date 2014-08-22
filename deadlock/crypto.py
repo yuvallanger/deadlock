@@ -219,6 +219,19 @@ class SymmetricMiniLock:
         """Yield successive chunks from array/list/string.
         Final chunk may be truncated if array is not evenly divisible by chunk_size."""
         for i in range(0, len(array), chunk_size): yield array[i:i+chunk_size]
+        
+    @staticmethod
+    def piece_file(input_f, chunk_size):
+        """
+        Provides a streaming interface to file data in chunks of even size, which
+        avoids memoryerrors from loading whole files into RAM to pass to `pieces`.
+        """
+        chunk = input_f.read(chunk_size)
+        total_bytes = 0
+        while chunk:
+            yield chunk
+            chunk = input_f.read(chunk_size)
+            total_bytes += len(chunk)
 
     @staticmethod
     def make_nonce(base_nonce, chunk_number, last=False):
@@ -363,8 +376,17 @@ class MiniLockHeader:
         return json.dumps(self.dict, separators=(',',':')).encode('utf8')
 
 class MiniLockFile:
+    """
+    Produces encrypted MiniLock files in one go (batch mode). This is simple and
+    reliable for files below a certain size, but is unsuitable for large files
+    as their contents and ciphertext are loaded into RAM.
+    
+    Another implementation will be needed for large files which streams input
+    and output.
+    """
+
     @classmethod
-    def new(cls, file_name, file_contents, sender, recipients):
+    def new(cls, file_name, file_or_contents, sender, recipients):
         """
         Constructs (that is, encrypts) a new miniLock file from sender to recipients.
         """
@@ -377,7 +399,7 @@ class MiniLockFile:
         file_key   = os.urandom(32)
         file_nonce = os.urandom(16)
         file_cipher = SymmetricMiniLock.from_key(file_key)
-        ciphertext = b''.join(file_cipher.encrypt(file_contents, file_name, file_nonce))
+        ciphertext = b''.join(file_cipher.encrypt(file_or_contents, file_name, file_nonce))
         file_info = {
             'fileKey'   : b64encode(file_key),
             'fileNonce' : b64encode(file_nonce),

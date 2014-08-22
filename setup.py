@@ -30,7 +30,7 @@ setup(
     install_requires = [
         'base58',
         'PyNaCl',
-#        'scrypt',
+        'scrypt',
         'pylibscrypt',
         'pyblake2'
         ],
