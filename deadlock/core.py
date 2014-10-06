@@ -157,13 +157,15 @@ def main_encrypt(A):
         crypted = encrypt_folder(A.path, userKey, recipients)
     else:
         error_out("Specified path '{}' is neither a file nor a folder.".format(A.path))
+    output_to_stdout = A.output.fileno() == sys.stdout.fileno()
     if A.base64:
         crypted = crypto.b64encode(crypted)
-    if not A.output:
-        A.output = hex(int.from_bytes(os.urandom(6),'big'))[2:] + ".minilock"
-    print("Saving output to", A.output)
-    with open(A.output, "wb") as O:
-        O.write(crypted)
+        if not output_to_stdout:
+            crypted = crypted.encode('utf-8')
+    if output_to_stdout:
+        crypted = crypted.decode('ISO-8859-1')
+    print("Saving output to", A.output.name)
+    A.output.write(crypted)
 
 def main_decrypt(A):
     "Get all local keys OR prompt user for key, then attempt to decrypt with each."
@@ -236,7 +238,8 @@ def main():
             help = "Path to file to encrypt. If a folder, it will be zipped before encryption.")
     encP.add_argument("recipient", nargs = "+", type = str,
             help = "User IDs to encrypt to")
-    encP.add_argument("-o", "--output", type = str, default = '',
+    encP.add_argument("-o", "--output", type = argparse.FileType('wb'),
+                      default = hex(int.from_bytes(os.urandom(6),'big'))[2:] + ".minilock",
             help = "File to write output to, default is <8 random chars>.minilock")
     # == Decryption ==
     decP.add_argument("path", type = str,
