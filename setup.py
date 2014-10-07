@@ -23,7 +23,7 @@ setup(
         'deadlock',
         'deadlock.crypto_fallbacks',
         'deadlock.passwords',
-        'deadlock.passwords.zxcvbn', 
+        'deadlock.passwords.zxcvbn',
         'deadlock.passwords.zxcvbn.scripts'
     ],
     package_data = {'deadlock': ['passwords/zxcvbn/data/*', 'passwords/zxcvbn/generated/*']},

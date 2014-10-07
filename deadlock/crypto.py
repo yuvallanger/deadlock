@@ -52,7 +52,7 @@ class UserLock:
     constructed using either an email address and passphrase, which will yield a
     key-pair with a secret and public part, or using a miniLock ID, which will have
     only a public key part.
-    
+
     This only wraps the task of creating or importing keys, not of their use;
     for that, use the attributes private_key or public_key.
     """
@@ -66,17 +66,17 @@ class UserLock:
             return bytes(value)
         else:
             raise TypeError("Value is not str, bytearray or bytes: '{}', type '{}'".format(value, type(value)))
-    
+
     @classmethod
     def from_passphrase(cls, email, passphrase):
         """
         This performs key derivation from an email address and passphrase according
         to the miniLock specification.
-        
+
         Specifically, the passphrase is digested with a standard blake2s 32-bit digest,
         then it is passed through scrypt with the email address as salt value using
         N = 217, r = 8, p = 1, L = 32.
-        
+
         The 32-byte digest from scrypt is then used as the Private Key from which
         the public key is derived.
         """
@@ -110,7 +110,7 @@ class UserLock:
         if cs != pyblake2.blake2s(pk.encode(), 1).digest():
             raise ValueError("Public Key does not match its attached checksum byte: id='{}', decoded='{}', given checksum='{}', calculated checksum={}".format(id, decoded, cs, pyblake2.blake2s(pk.encode(), 1).digest()))
         return cls(pk)
-    
+
     @classmethod
     def from_b64(cls, b64key):
         decoded = b64decode(b64key)
@@ -143,7 +143,7 @@ class UserLock:
         This function is naive, but has a max_tries argument which will abort when
         reached with a ValueError.
         TODO: make this smarter, in general. Variable byte length according to
-        expected attempts, warnings of expected duration of iteration, etc. 
+        expected attempts, warnings of expected duration of iteration, etc.
         TODO: Implement multiprocessing to use poly-core machines fully:
             - Shared list, each process checks if empty every cycle, aborts if
               contains a value.
@@ -165,7 +165,7 @@ class UserLock:
                 return ukey
         else:
             raise ValueError("Could not create key with desired prefix '{}' in {} attempts.".format(prefix, max_tries))
-    
+
     def __init__(self, public_key, private_key=None):
         "Provide a public key and, if known, a private key. They will be verified to match."
         assert_type_and_length('public_key', public_key, nacl.public.PublicKey)
@@ -174,14 +174,14 @@ class UserLock:
         self.private_key = private_key
         if self.private_key and not (self.public_key.encode() == self.private_key.public_key.encode()):
             raise ValueError("Provided public key does not match the derived public key of the private key!")
-    
+
     @property
     def b64str(self):
         return b64encode(self.public_key.encode())
-    
+
     @property
     def userID(self):
-        return base58.b58encode(   self.public_key.encode() + 
+        return base58.b58encode(   self.public_key.encode() +
                             pyblake2.blake2s(self.public_key.encode(), 1).digest() )
 
     def __hash__(self):
@@ -190,11 +190,11 @@ class UserLock:
 class SymmetricMiniLock:
     """
     This wraps the symmetric encryption system used by miniLock to encrypt files.
-    
+
     It performs the task of padding and encrypting filename, followed by chunked
     file segments with length prefixes. Encrypted chunks (starting with the name)
     are yielded by the encryption function, so this must be iterated over.
-    
+
     When decrypting, it iterates over the length-prefixed chunks of the ciphertext,
     decrypts each (right-stripping the first of null bytes assuming it to be the
     filename), and yields each in turn; decryption, too, must be iterated over.
@@ -213,13 +213,13 @@ class SymmetricMiniLock:
         to construct from a raw binary key (which must be 32 bytes in length).
         """
         self.box  = box
-        
+
     @staticmethod
     def pieces(array, chunk_size):
         """Yield successive chunks from array/list/string.
         Final chunk may be truncated if array is not evenly divisible by chunk_size."""
         for i in range(0, len(array), chunk_size): yield array[i:i+chunk_size]
-        
+
     @staticmethod
     def piece_file(input_f, chunk_size):
         """
@@ -241,7 +241,7 @@ class SymmetricMiniLock:
         if last:
             n[-1] |= 128
         return bytes(n)
-        
+
     @staticmethod
     def iter_chunks(ciphertext, start_count=0):
         chunknum = start_count
@@ -267,7 +267,7 @@ class SymmetricMiniLock:
             if chunknum == 0:
                 decrypted = decrypted.rstrip(b'\x00')
             yield decrypted
-            
+
     def encrypt(self, pt, filename, basenonce):
         if isinstance(filename, str):
             filename = filename.encode('utf8')
@@ -370,7 +370,7 @@ class MiniLockHeader:
         # Overwrite decryptInfo's fileInfo key
         decryptInfo['fileInfo'] = fileInfo
         return decryptInfo
-        
+
     def to_bytes(self):
         # Remember to use separators=(',',':') in json.dumps to save space
         return json.dumps(self.dict, separators=(',',':')).encode('utf8')
@@ -380,7 +380,7 @@ class MiniLockFile:
     Produces encrypted MiniLock files in one go (batch mode). This is simple and
     reliable for files below a certain size, but is unsuitable for large files
     as their contents and ciphertext are loaded into RAM.
-    
+
     Another implementation will be needed for large files which streams input
     and output.
     """
@@ -393,7 +393,7 @@ class MiniLockFile:
         assert_type_and_length('recipients', recipients, list, minL=1)
         assert_type_and_length('sender', sender, UserLock)
         for R in recipients:
-            assert_type_and_length('recipient', R, (str, UserLock))   
+            assert_type_and_length('recipient', R, (str, UserLock))
         recipients = list(set(recipients))
         # Encrypt file with secret key using file_contents and file_name
         file_key   = os.urandom(32)
@@ -424,7 +424,7 @@ class MiniLockFile:
         """
         self.contents = contents
         self.validate()
-        
+
     def validate(self):
         # Confirm 8-byte leader
         if not self.contents[:8] == b'miniLock':

@@ -10,6 +10,6 @@ def secure_choice(sequence):
     "Returns a single item from sequence using random.choice after seeding with 32 bytes of urandom."
     random.seed(os.urandom(32))
     return random.choice(sequence)
-    
+
 def generate_phrase(phrase_length=7):
     return ' '.join((secure_choice(wordlist.wordlist) for i in range(phrase_length)))

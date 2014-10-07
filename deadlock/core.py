@@ -57,7 +57,7 @@ def make_lock_securely(email = None, warn_only = False):
         print("Suggestion:", make_random_phrase(email))
     key = crypto.UserLock.from_passphrase(email, passphrase)
     return key
-    
+
 def encrypt_file(file_path, sender, recipients):
     "Returns encrypted binary file content if successful"
     for recipient_key in recipients:
@@ -69,7 +69,7 @@ def encrypt_file(file_path, sender, recipients):
     with open(file_path, "rb") as I:
         crypted = crypto.MiniLockFile.new(filename, I.read(), sender, recipients)
     return crypted.contents
-    
+
 def decrypt_file(file_path, recipient_key, *, base64=False):
     "Returns (filename, file_contents) if successful"
     crypto.assert_type_and_length('recipient_key', recipient_key, crypto.UserLock)
@@ -118,7 +118,7 @@ def resolve_recipients(profile, recipient_list):
                 recipients.append(profile['petnames'][R])
             else:
                 error_out("Recipient is not a valid ID and was not found in petnames: {}".format(R))
-    return recipients    
+    return recipients
 
 def get_profile(A):
     "Fail-soft profile getter; if no profile is present assume none and quietly ignore."
@@ -198,20 +198,20 @@ def main_generate(A):
     print("Give the above ID to anyone you want to communicate with privately to safely encrypt things to you. Remember; while your email address is used to securely generate a unique key, you can use miniLock over any medium. For output you can paste anywhere (instead of an encrypted binary file), pass the 'base64' option to deadlock in encrypt mode.")
     profile = get_profile(A)
     profile.setdefault("local keys", []).append( {
-        'email': A.email, 
-        'private_key': crypto.b64encode(userLock.private_key.encode()), 
+        'email': A.email,
+        'private_key': crypto.b64encode(userLock.private_key.encode()),
         'miniLock ID':userLock.userID
         } )
     save_profile(A, profile)
     print("This will be used to attempt decryption of files in future; please be aware it is stored as plain-text on disk as {}, for security you should delete this and instead use 'deadlock decrypt' with email and passphrase each time, from memory.")
-    
+
 def main_store(A):
     profile = get_profile(A)
     petnames = profile.setdefault("petnames", {})
     petnames[A.petname] = A.miniLockID
     profile['petnames'] = petnames
     save_profile(A, profile)
-    
+
 def main():
     P = argparse.ArgumentParser(description="deadlock: A stateless Python implementation of minilock.io")
     # == Create subcommands ==
@@ -226,7 +226,10 @@ def main():
     stoP.set_defaults(func = main_store)
     # == Begin args ==
     P.add_argument("--profile", type = str, default = "~/.deadlock.json",
-            help = "Path to where profile information should be stored. Only written to when using the 'store' command, ignored if absent in all other modes. If present, used to resolve friend-names or to fetch a stored lock.")
+            help = "Path to where profile information should be stored."
+                   " Only written to when using the 'store' command,"
+                   " ignored if absent in all other modes. If present,"
+                   " used to resolve friend-names or to fetch a stored lock.")
     P.add_argument("--ignore-entropy", action = "store_true", default = False,
             help = "Permit low-entropy passphrases when generating a lock.")
     # == Encryption ==
